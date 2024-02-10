@@ -3,5 +3,5 @@ const router = express.Router()
 
 const PassWordReset = require('../controllers/resetpassword')
 router.get('/' , PassWordReset.getResetPass)
-router.post('/' , PassWordReset.postResetPass)
+router.post('/' , PassWordReset.postResetPassword)
 module.exports = router

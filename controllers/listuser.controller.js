@@ -1,7 +1,8 @@
 const User = require('../models/user')
 
 exports.getUser = (async (req, res) => {
-  const userList = await User.find()
+  const username = req.query.username
+  const userList = await User.find({username})
   res.status(200).json(userList)
 })
 
@@ -15,7 +16,6 @@ exports.postUser = (async (req, res) => {
     }
     const newUser = new User(data);
     const result = await newUser.save()
-    res.status(200).json({ message: "Đăng ký người dùng thành công" })
   } catch (error) {
     res.status(500).json({message : "Không tạo được tài khoản"})
   }

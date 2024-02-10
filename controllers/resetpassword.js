@@ -14,25 +14,25 @@ const transporter = nodemailer.createTransport({
         pass: "qutirnowlbvwpued",
     },
 });
+console.log(transporter);
 
-exports.postResetPass = (async (req, res) => {
-    const token = req.query.token
-    const decodedToken = jwt.sign(token, process.env.JWT_SECRET);
+
+exports.postResetPassword = async (req, res) => {
+    const token = req.body.token;
+    const newPassword = req.body.newPassword;
     const user = await User.findOne({
-        _id: decodedToken.id,
-        resetToken: token,
         resetTokenExpiration: { $gt: Date.now() },
-    })
-
+    });
     if (!user) {
-        return res.status(401).json({ error: 'Invalid or expired password reset token' })
+        return res.status(401).json({ error: 'Invalid or expired password reset token' });
     }
 
-    user.password = req.body.password;
+    user.password = newPassword;
     user.resetToken = undefined;
     user.resetTokenExpiration = undefined;
-    await user.save()
+    await user.save();
 
+   
     const mailOptions = {
         from: "duyduc.tesop@gmail.com",
         to: user.email,
@@ -40,52 +40,13 @@ exports.postResetPass = (async (req, res) => {
         html: `
       <p>Your password has been successfully reset. If you did not initiate this request, please contact us immediately.</p>
     `,
-    }
+    };
+
     try {
         await transporter.sendMail(mailOptions);
-        console.log(transporter);
-        res.json({ message: 'Password reset email sent' });
-    } catch(err) {
-      console.log(err);
-        console.error('Failed to send password reset email:');
-        res.status(500).json({ error: 'Failed to send password reset email' });
+        return res.redirect('/login')
+    } catch (err) {
+        console.error('Failed to send password reset confirmation email:', err);
+        res.status(500).json({ error: 'Failed to send password reset confirmation email' });
     }
-})
-
-// exports.postResetPassword = async (req, res) => {
-//     const resetToken = req.query.token;
-//     const password = req.body.password;
-
-//     console.log(resetToken);
-//     console.log(password);
-//     const user = await User.findOne({
-//         resetToken :resetToken,
-//         resetTokenExpiration: { $gt: Date.now() },
-//     });
-
-//     if (user) {
-//         user.password = password;
-//         user.resetToken = undefined;
-//         user.resetTokenExpiration = undefined;
-//         await user.save();
-
-//         const mailOptions = {
-//             from: "duyduc.tesop@gmail.com",
-//             to: user.email,
-//             subject: 'Password Reset Confirmation',
-//             html: `
-//                   <p>Your password has been successfully reset. If you did not initiate this request, please contact us immediately.</p>
-//                 `,
-//         }
-//         try {
-//             await transporter.sendMail(mailOptions);
-//             console.log(transporter);
-//             res.json({ message: 'Password reset email sent' });
-//         } catch (err) {
-//             console.log(err);
-//             console.error('Failed to send password reset email:');
-//             res.status(500).json({ error: 'Failed to send password reset email' });
-//         }
-//     }
-   
-// };
+}

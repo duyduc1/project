@@ -1,26 +1,33 @@
-const Admin = require('../models/admin')
+const Admin = require('../models/admin');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.getLoginAdmin = (async (req, res) => {
-    res.render("adminlogin.ejs")
-})
+    res.render("adminlogin.ejs");
+});
 
-exports.postLoginAdmin = (async(req,res)=>{
-    let name = req.body.username
-    let password = req.body.password
+exports.postLoginAdmin = (async (req, res) => {
+    const { username, password } = req.body;
 
-    Admin.findOne({name : name})
-        .then(dataAdmin => {
-            if(dataAdmin){
-                if(password === dataAdmin.password){
-                    res.redirect('/getuser')
-                } else {
-                    res.status(403).send('user not found')
-                }
-            }else{
-                res.status(403)
+    try {
+        const dataAdmin = await Admin.findOne({ name: username });
+
+        if (dataAdmin) {
+            const isPasswordValid = await bcrypt.compare(password, dataAdmin.password);
+
+            if (isPasswordValid) {
+                const token = jwt.sign({ username: dataAdmin.name, email: dataAdmin.email }, 'your-secret-key', { expiresIn: '1h' });
+                dataAdmin.token = token
+                await dataAdmin.save()
+                res.cookie('adminToken', token);
+                res.redirect('/getuser');              
+            } else {
+                res.status(403).send('Invalid username or password');
             }
-        })
-        .catch(error =>{
-            res.status(500)
-        })
-})
+        } else {
+            res.status(403).send('Invalid username or password');
+        }
+    } catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+});

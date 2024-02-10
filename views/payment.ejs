@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Input Form</title>
+</head>
+<body>
+
+<form action="/payment" method="post">
+    <div>
+        <input type="text" id="namefilm" name="namefilm" required placeholder="tên phim">
+    </div>
+    <div>
+        <input type="text" id="Subtitles" name="Subtitles" required placeholder="phụ đề">
+    </div>
+    <div>
+        <input type="text" id="centerlocation" name="centerlocation" required placeholder="vị trí trung tâm">
+    </div>
+    <div>
+        <input type="text" id="screeningrate" name="screeningrate" required placeholder="suất chiếu">
+        <input type="date" id="Date" name="Date" required placeholder="ngày đặt vé">
+    </div>
+    <div> 
+        <input type="text" id="numberseatsbooked" name="numberseatsbooked" required placeholder="số ghế đã đặt">
+        <input type="text" id="seatposition" name="seatposition" required placeholder="vị trí ghế ngồi">
+    </div>
+    <div>
+        <input type="text" id="totalcost" name="totalcost" placeholder="tổng chi phí">
+    </div>
+    <button type="submit" value="Submit"> Thanh Toán</button>
+</form>
+
+</body>
+</html>

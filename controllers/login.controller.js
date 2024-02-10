@@ -19,7 +19,6 @@ exports.postLogin = async (req, res) => {
             const token = jwt.sign({ userId: user._id, role }, 'your-secret-key', { expiresIn: '1h' });
             user.token = token
             await user.save()
-
             res.cookie('userToken', token);
             res.redirect('/page');
         } else {

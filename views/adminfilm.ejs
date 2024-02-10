@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data">
+        <div>
+            <label>Chọn ảnh hồ sơ của bạn</label>
+            <input type="file" name="profile_pic" />
+        </div>
+        <div>
+            <label>Tên Phim</label>
+            <input type="text" name="namefilm" placeholder="Tên Phim">
+        </div>
+        <div>
+            <label>Thời hạn phim</label>
+            <input type="text" name="time" placeholder="Thời hạn phim">
+        </div>
+        <div>
+            <label>Thời gian chiếu</label>
+            <input type="date" name="showdate" placeholder="Thời gian chiếu phim">
+        </div>
+        <div>
+            <label>Quốc gia</label>
+            <input type="text" name="nation" placeholder="Quốc gia">
+        </div>
+        <div>
+            <label>Nhà sản xuất</label>
+            <input type="text" name="producer" placeholder="Nhà sản xuất">
+        </div>
+        <div>
+            <label>Thể loại</label>
+            <input type="text" name="category" placeholder="Thể loại">
+        </div>
+        <div>
+            <label>Đạo diễn</label>
+            <input type="text" name="director" placeholder="Đạo diễn">
+        </div>
+        <div>
+            <label>Diễn viên</label>
+            <input type="text" name="performer" placeholder="Diễn viên">
+        </div>
+        <div>
+            <button type="submit">save</button>
+        </div>
+    </form>
+
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!-- searchUsers.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Search</title>
+</head>
+<body>
+    <h1>User Search</h1>
+
+    <form action="/users/search" method="get">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Display search results -->
+    <% if(users && users.length > 0) { %>
+        <h2>Search Results</h2>
+        <ul>
+            <% users.forEach(function(user) { %>
+                <li><%- user.username %></li>
+                <!-- Display other user information as needed -->
+            <% }); %>
+        </ul>
+    <% } else if(users && users.length === 0) { %>
+        <p>No users found with the specified username.</p>
+    <% } %>
+
+</body>
+</html>

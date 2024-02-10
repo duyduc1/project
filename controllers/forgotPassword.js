@@ -2,6 +2,7 @@ const User = require('../models/user')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const crypto = require('crypto')
 
 exports.getForgotPass = (async (req, res) => {
     res.render("forgotpassword.ejs")
@@ -19,7 +20,7 @@ exports.postForgotPass = (async (req, res) => {
     const email = req.body.email
     const user = await User.findOne({ email })
     if (user) {
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = crypto.randomBytes(20).toString('hex');
         user.resetToken = token;
         user.resetTokenExpiration = Date.now() + 3600000
         await user.save()

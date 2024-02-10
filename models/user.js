@@ -21,7 +21,9 @@ const registerSchema = new mongoose.Schema({
     token: {
         type: String 
     },
-    resetToken : String,
+    resetToken : {
+        type:String
+    },
     resetTokenExpiration :Date,
 })
 

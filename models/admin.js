@@ -12,7 +12,10 @@ const registerAdminSchema = new mongoose.Schema({
     email:{
         type:String,
         requried:true
-    }
+    },
+    token: {
+        type: String 
+    },
 })
 
 const registerAdminCollection = new mongoose.model('admins' , registerAdminSchema)
