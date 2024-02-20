@@ -16,6 +16,7 @@ exports.postUser = (async (req, res) => {
     }
     const newUser = new User(data);
     const result = await newUser.save()
+    return res.status(200).json({ message: "Tạo thành công" })
   } catch (error) {
     res.status(500).json({message : "Không tạo được tài khoản"})
   }

@@ -11,7 +11,6 @@ exports.getUserList = (async(req,res) =>{
         if(!username){
             return res.status(400).json({error : "không tìm thấy người dùng"})
         }
-        
         const users = await User.find({ username: { $regex: new RegExp(username, 'i') } });        
         console.log(users);
         res.render('filterByUsername.ejs', { users });
